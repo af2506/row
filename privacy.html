@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050506">
+<title>Privacy Policy — AF Dashboard</title>
+<style>
+:root {
+  --bg: #050506;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --border: rgba(255, 255, 255, 0.08);
+  --text-primary: #FAFAFA;
+  --text-secondary: #B8B6B0;
+  --text-tertiary: #76746E;
+  --accent: #E07658;
+  --font: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: 15px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  padding: max(48px, env(safe-area-inset-top)) 20px 80px;
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+}
+main { max-width: 640px; margin: 0 auto; }
+a { color: var(--accent); }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 600;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 10px;
+}
+h1 {
+  font-size: 28px; font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin: 0 0 6px;
+}
+.updated { font-size: 12.5px; color: var(--text-tertiary); font-family: var(--font-mono); margin-bottom: 36px; }
+h2 {
+  font-size: 15px; font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.005em;
+  margin: 34px 0 10px;
+}
+p { margin: 0 0 14px; }
+ul { margin: 0 0 14px; padding-left: 20px; }
+li { margin-bottom: 6px; }
+code {
+  background: rgba(255,255,255,0.05);
+  padding: 1px 6px; border-radius: 4px;
+  font-family: var(--font-mono); font-size: 13px;
+  color: var(--text-primary);
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin: 24px 0;
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; color: var(--text-tertiary);
+  text-decoration: none; margin-bottom: 28px;
+}
+.back-link:hover { color: var(--text-primary); }
+footer { margin-top: 48px; font-size: 12px; color: var(--text-tertiary); }
+</style>
+</head>
+<body>
+<main>
+  <a href="health.html" class="back-link">← Back to dashboard</a>
+
+  <div class="eyebrow">Privacy Policy</div>
+  <h1>AF Dashboard</h1>
+  <div class="updated">Last updated August 29, 2026</div>
+
+  <p>
+    AF Dashboard is a personal, single-user health &amp; life-tracking app. This page explains what
+    happens to your data when you connect the <strong>WHOOP</strong> integration on the Health page,
+    and how the rest of the dashboard handles data in general.
+  </p>
+
+  <h2>Who this app is for</h2>
+  <p>
+    This is not a commercial or multi-tenant product. It's a private dashboard built and used by one
+    person. If you're a WHOOP reviewer or another user evaluating this integration: the app is not
+    distributed to the public and has no sign-up flow — access is limited to whoever deploys their own
+    copy of this repository and connects their own WHOOP account.
+  </p>
+
+  <h2>What data the WHOOP integration accesses</h2>
+  <p>When you tap "Connect WHOOP" and authorize the app, it requests read-only access to:</p>
+  <ul>
+    <li>Recovery scores, HRV, resting heart rate, skin temperature, and blood oxygen</li>
+    <li>Sleep sessions and sleep stage breakdown (REM, deep, light, awake)</li>
+    <li>Daily strain and cycle data</li>
+    <li>Basic profile information</li>
+  </ul>
+  <p>The app never requests write access and cannot modify or delete anything in your WHOOP account.</p>
+
+  <h2>Where that data goes</h2>
+  <div class="card">
+    <p style="margin-bottom:0"><strong>It stays on your device.</strong> WHOOP data is fetched directly
+    from WHOOP's API into your browser and stored only in that browser's local storage, to render the
+    Health page. It is not written to any database, and it is not included in this dashboard's
+    Supabase-based cloud sync (which is used only for goals, stack, water, and finance data). Nothing
+    about your WHOOP data is shared with the developer of this app or any third party.</p>
+  </div>
+
+  <h2>Authentication &amp; tokens</h2>
+  <p>
+    WHOOP connect uses standard OAuth2. Your WHOOP <code>Client Secret</code> is kept server-side in a
+    single serverless function (<code>/api/whoop-token</code>) used only to exchange or refresh your
+    access token — it never reaches the browser. Your access and refresh tokens are stored in your
+    browser's local storage and used only to make read requests to WHOOP's API on your behalf.
+  </p>
+
+  <h2>How to disconnect / delete your data</h2>
+  <p>
+    Tap "Disconnect" on the WHOOP card at any time to remove your tokens from this browser immediately.
+    You can also revoke the app's access entirely from your WHOOP account settings at any time, which
+    invalidates the tokens on WHOOP's side. Clearing your browser's site data for this dashboard removes
+    everything stored locally, including WHOOP tokens and cached scores.
+  </p>
+
+  <h2>Other data in this dashboard</h2>
+  <p>
+    Outside of WHOOP, the dashboard's other pages (goals, supplement stack, water, finance, gym progress)
+    store data in browser local storage and, if configured, sync it to a private Supabase project the
+    deployer controls — used solely to keep the same person's data in sync across their own devices.
+    None of that data is shared with any third party either.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about this policy or how the app handles data: <a href="mailto:adam.farid147@gmail.com">adam.farid147@gmail.com</a>.
+  </p>
+
+  <footer>This policy applies to this deployment of AF Dashboard and its WHOOP integration.</footer>
+</main>
+</body>
+</html>
