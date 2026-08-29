@@ -25,14 +25,20 @@ Each app stores its own state in browser `localStorage`. No accounts, no server 
 
 ### WHOOP widget (optional)
 
-`health.html` has a WHOOP card (recovery / sleep stages / strain) at the top of the page. It's off until you connect it:
+`health.html` has a WHOOP card (recovery / sleep / strain) at the top of the page. It's off until you connect it:
 
 1. Create a free app at `developer.whoop.com`.
-2. Set its redirect URL to your deployed `health.html` URL (e.g. `https://your-site.vercel.app/health.html`).
-3. In your Vercel project → Settings → Environment Variables, add `WHOOP_CLIENT_ID` and `WHOOP_CLIENT_SECRET`, then redeploy.
-4. On the health page, tap the gear icon on the WHOOP card and paste the same Client ID, then hit **Connect WHOOP**.
+2. Set its Redirect URL to `https://your-site.vercel.app/api/whoop-callback`.
+3. In your Vercel project → Settings → Environment Variables, add `WHOOP_CLIENT_ID`, `WHOOP_CLIENT_SECRET`, and `WHOOP_REDIRECT_URI` (same value as the Redirect URL above), then redeploy.
+4. The Client ID is hardcoded into `health.html`'s WHOOP script (it's not secret — OAuth client IDs are meant to be public) — swap in your own if you fork this. The Client Secret only ever lives in the Vercel env var above; it's never committed to the repo.
+5. On the health page, hit **Connect WHOOP**.
 
-[api/whoop-token.js](api/whoop-token.js) is a Vercel serverless function that exchanges/refreshes the OAuth token — it's the only piece that touches your `WHOOP_CLIENT_SECRET`, which never reaches the browser. Tokens are stored in `localStorage` only and are deliberately excluded from the Supabase cloud sync used elsewhere in the dashboard.
+Three Vercel serverless functions handle the OAuth/data flow — none of them expose `WHOOP_CLIENT_SECRET` to the browser:
+- [api/whoop-callback.js](api/whoop-callback.js) — receives the OAuth redirect, exchanges the code for tokens, redirects back to `health.html` with the tokens in the URL fragment.
+- [api/whoop-refresh.js](api/whoop-refresh.js) — refreshes an expired access token.
+- [api/whoop-data.js](api/whoop-data.js) — proxies authenticated reads to the WHOOP API (v1 for `/cycle`, v2 for everything else).
+
+Tokens are stored in `localStorage` only and are deliberately excluded from the Supabase cloud sync used elsewhere in the dashboard.
 
 ## Building from scratch
 

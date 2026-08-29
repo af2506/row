@@ -466,307 +466,155 @@ main {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.08); border-radius: 999px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.15); }
-
-/* ============================================================
-   WHOOP widget — recovery / sleep / strain, synced from
-   api.prod.whoop.com via /api/whoop-token (OAuth2 token exchange).
-   ============================================================ */
-.whoop-section { margin-bottom: 28px; }
-.whoop-card {
-  background: var(--bg-card);
-  border-radius: 16px;
-  padding: 22px 22px 18px;
-  backdrop-filter: blur(24px) saturate(1.2);
-  -webkit-backdrop-filter: blur(24px) saturate(1.2);
-  box-shadow: 0 12px 40px rgba(0,0,0,0.45);
-  position: relative;
-}
-.whoop-settings-btn {
-  position: absolute; top: 16px; right: 16px;
-  width: 30px; height: 30px; border-radius: 50%;
-  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-  color: var(--text-tertiary); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background 0.18s, color 0.18s;
-}
-.whoop-settings-btn:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); }
-.whoop-brand { display: inline-flex; align-items: center; gap: 8px; }
-.whoop-brand-mark {
-  width: 22px; height: 22px; border-radius: 50%;
-  background: #FFFFFF; color: #0A0A0B;
-  font-weight: 900; font-size: 12px;
-  display: inline-flex; align-items: center; justify-content: center;
-  letter-spacing: -0.04em;
-}
-.whoop-brand-text { font-weight: 800; font-size: 13px; letter-spacing: 0.18em; color: var(--text-primary); }
-.whoop-live-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 9.5px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #6BE3A4; margin-left: 4px; }
-.whoop-live-dot { width: 6px; height: 6px; border-radius: 50%; background: #6BE3A4; box-shadow: 0 0 8px rgba(107,227,164,0.65); animation: whoop-pulse 1.6s ease-in-out infinite; }
-@keyframes whoop-pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.85); } }
-.whoop-disconnected { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 18px 8px 8px; gap: 6px; }
-.whoop-disconnected .whoop-brand { margin-bottom: 14px; }
-.whoop-disconnected-title { font-size: 20px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; margin-top: 2px; }
-.whoop-disconnected-sub { font-size: 13px; color: var(--text-tertiary); max-width: 320px; line-height: 1.5; margin-bottom: 18px; }
-.whoop-connect-btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  padding: 12px 22px; border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.85);
-  background: linear-gradient(180deg, #FFFFFF 0%, #E8E5DD 100%);
-  color: #0A0A0B; font-family: inherit; font-size: 13.5px; font-weight: 700;
-  cursor: pointer; transition: transform 0.12s, box-shadow 0.18s;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 6px 20px rgba(0,0,0,0.45);
-}
-.whoop-connect-btn:hover { transform: translateY(-1px); }
-.whoop-connect-btn:active { transform: translateY(0) scale(0.98); }
-.whoop-auth-status { font-size: 11px; color: var(--text-tertiary); margin-top: 12px; min-height: 14px; font-style: italic; }
-.whoop-header { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; padding-right: 34px; }
-.whoop-header-right { display: flex; align-items: center; gap: 10px; }
-.whoop-updated { font-size: 11px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; font-family: var(--font-mono); }
-.whoop-refresh-btn {
-  width: 30px; height: 30px; border-radius: 50%;
-  border: 1px solid var(--border); background: rgba(255,255,255,0.04);
-  color: var(--text-secondary); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: background 0.18s, transform 0.12s; flex-shrink: 0;
-}
-.whoop-refresh-btn:hover { background: rgba(255,255,255,0.10); color: var(--text-primary); }
-.whoop-refresh-btn.is-loading svg { animation: whoop-spin 0.8s linear infinite; }
-@keyframes whoop-spin { to { transform: rotate(360deg); } }
-.whoop-calibrating { display: flex; align-items: center; gap: 8px; padding: 9px 14px; margin-bottom: 16px; background: rgba(242,192,99,0.08); border: 1px solid rgba(242,192,99,0.28); border-radius: 10px; color: #F2C063; font-size: 11.5px; }
-.whoop-cal-dot { width: 6px; height: 6px; border-radius: 50%; background: #F2C063; box-shadow: 0 0 8px rgba(242,192,99,0.55); animation: whoop-pulse 1.6s ease-in-out infinite; flex-shrink: 0; }
-.whoop-ring-wrap { position: relative; width: 200px; max-width: 70%; margin: 0 auto 22px; aspect-ratio: 1; }
-.whoop-ring { width: 100%; height: 100%; transform: rotate(-90deg); }
-.whoop-ring-track { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 12; }
-.whoop-ring-fill { fill: none; stroke: #FFFFFF; stroke-width: 12; stroke-linecap: round; stroke-dasharray: 603.19; stroke-dashoffset: 603.19; transition: stroke-dashoffset 0.8s cubic-bezier(0.22,1,0.36,1), stroke 0.4s; }
-.whoop-ring-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
-.whoop-ring-num { font-size: 50px; font-weight: 700; letter-spacing: -0.04em; color: var(--text-primary); line-height: 1; font-variant-numeric: tabular-nums; }
-.whoop-ring-unit { font-size: 10px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-tertiary); margin-top: 8px; }
-.whoop-ring-label { font-size: 12px; font-weight: 600; margin-top: 6px; }
-.whoop-stages { margin-bottom: 20px; padding-top: 20px; border-top: 1px solid var(--border-soft); }
-.whoop-stages-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
-.whoop-stages-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-tertiary); }
-.whoop-stages-meta { font-size: 11px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; font-family: var(--font-mono); }
-.whoop-stages-bar { display: flex; height: 10px; background: rgba(255,255,255,0.04); border-radius: 999px; overflow: hidden; margin-bottom: 12px; border: 1px solid var(--border-soft); }
-.whoop-stage { height: 100%; transition: width 0.7s cubic-bezier(0.22,1,0.36,1); }
-.whoop-stage-rem { background: #FFFFFF; }
-.whoop-stage-deep { background: #B8B6B0; }
-.whoop-stage-light { background: #76746E; }
-.whoop-stage-awake { background: #38362F; }
-.whoop-stages-legend { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.whoop-stages-leg { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary); font-weight: 500; }
-.whoop-stages-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
-.whoop-stages-dot.d-rem { background: #FFFFFF; }
-.whoop-stages-dot.d-deep { background: #B8B6B0; }
-.whoop-stages-dot.d-light { background: #76746E; }
-.whoop-stages-dot.d-awake { background: #38362F; border: 1px solid var(--border); }
-.whoop-stages-num { margin-left: auto; color: var(--text-primary); font-weight: 700; font-variant-numeric: tabular-nums; font-family: var(--font-mono); font-size: 11px; }
-@media (max-width: 480px) { .whoop-stages-legend { grid-template-columns: repeat(2, 1fr); } }
-.whoop-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding-top: 20px; border-top: 1px solid var(--border-soft); }
-.whoop-stat { position: relative; background: rgba(255,255,255,0.025); border: 1px solid var(--border-soft); border-radius: 12px; padding: 12px 10px; text-align: center; }
-.whoop-stat-label { font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.14em; font-weight: 700; margin-bottom: 8px; }
-.whoop-stat-value { font-size: 20px; font-weight: 700; color: var(--text-primary); line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.03em; }
-.whoop-stat-sub { font-size: 10px; color: var(--text-tertiary); margin-top: 5px; font-variant-numeric: tabular-nums; font-family: var(--font-mono); }
-@media (max-width: 480px) { .whoop-stats { grid-template-columns: repeat(2, 1fr); } }
-.whoop-bio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
-.whoop-bio-item { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 11px 12px; background: rgba(255,255,255,0.025); border: 1px solid var(--border-soft); border-radius: 12px; text-align: center; }
-.whoop-bio-label { font-size: 9.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-tertiary); }
-.whoop-bio-val { font-size: 14px; font-weight: 700; color: var(--text-primary); font-variant-numeric: tabular-nums; }
-@media (max-width: 380px) { .whoop-bio { grid-template-columns: 1fr; } }
-.whoop-zone { position: absolute; top: 9px; right: 9px; width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.12); }
-.whoop-zone.z-good { background: #6BE3A4; box-shadow: 0 0 7px rgba(107,227,164,0.55); }
-.whoop-zone.z-norm { background: rgba(255,255,255,0.30); }
-.whoop-zone.z-warn { background: #F2C063; box-shadow: 0 0 7px rgba(242,192,99,0.55); }
-.whoop-zone.z-bad { background: #FF6B6B; box-shadow: 0 0 7px rgba(255,107,107,0.55); }
-.whoop-legend { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 14px; padding: 10px 12px; background: rgba(255,255,255,0.02); border-radius: 999px; border: 1px solid var(--border-soft); }
-.whoop-legend-item { display: inline-flex; align-items: center; gap: 6px; font-size: 10.5px; font-weight: 600; color: var(--text-tertiary); }
-.whoop-legend-item .whoop-zone { position: static; display: inline-block; }
-.whoop-verdict { margin-top: 18px; padding: 16px 18px; background: rgba(255,255,255,0.025); border: 1px solid var(--border-soft); border-left: 2px solid rgba(255,255,255,0.40); border-radius: 0 12px 12px 0; }
-.whoop-verdict-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.whoop-verdict-eyebrow { font-size: 10px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.18em; font-weight: 700; }
-.whoop-verdict-badge { font-size: 9.5px; font-weight: 800; padding: 3px 9px; border-radius: 999px; letter-spacing: 0.14em; text-transform: uppercase; border: 1px solid; }
-.whoop-verdict-headline { font-size: 14.5px; font-weight: 600; color: var(--text-primary); line-height: 1.4; margin-bottom: 10px; }
-.whoop-verdict-reasons { font-size: 12.5px; color: var(--text-secondary); line-height: 1.65; }
-.whoop-disconnect-btn { display: block; margin: 16px auto 0; padding: 7px 14px; background: transparent; border: 1px solid transparent; color: var(--text-tertiary); font-size: 11px; font-family: inherit; font-weight: 500; border-radius: 999px; cursor: pointer; transition: color 0.15s, border-color 0.15s; }
-.whoop-disconnect-btn:hover { color: var(--text-secondary); border-color: var(--border-soft); }
-
-#whoopSetup { position: fixed; inset: 0; z-index: 9999; background: rgba(5,5,6,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); display: none; align-items: center; justify-content: center; padding: 24px; }
-#whoopSetup.is-visible { display: flex; }
-#whoopSetup .whoop-setup-card { max-width: 480px; width: 100%; background: rgba(20,20,22,0.95); border: 1px solid var(--border); border-radius: 22px; padding: 26px; box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
-#whoopSetup h2 { font-size: 18px; font-weight: 700; margin: 0 0 6px; color: var(--text-primary); }
-#whoopSetup .whoop-setup-sub { color: var(--text-secondary); font-size: 12.5px; margin-bottom: 16px; line-height: 1.55; }
-#whoopSetup ol { padding-left: 18px; margin: 12px 0 16px; }
-#whoopSetup li { font-size: 12.5px; color: var(--text-secondary); margin-bottom: 6px; line-height: 1.5; }
-#whoopSetup li code { background: rgba(255,255,255,0.05); padding: 1px 6px; border-radius: 4px; font-family: var(--font-mono); font-size: 11px; color: var(--text-primary); }
-#whoopSetup label { display: block; font-size: 11px; letter-spacing: 0.1em; color: var(--text-tertiary); text-transform: uppercase; margin: 12px 0 6px; font-weight: 600; }
-#whoopSetup input { width: 100%; box-sizing: border-box; padding: 11px 13px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 10px; color: var(--text-primary); font: inherit; font-size: 13px; font-family: var(--font-mono); outline: none; }
-#whoopSetup input:focus { border-color: var(--accent); }
-#whoopSetup .whoop-setup-actions { display: flex; gap: 10px; margin-top: 20px; }
-#whoopSetup button { flex: 1; padding: 11px 16px; border-radius: 10px; background: rgba(29,158,117,0.18); border: 1px solid rgba(29,158,117,0.40); color: var(--text-primary); font: inherit; font-weight: 600; font-size: 13px; cursor: pointer; }
-#whoopSetup button.secondary { background: rgba(255,255,255,0.04); border-color: var(--border); color: var(--text-secondary); }
 </style>
 </head>
 <body>
 
 <main>
-  <section class="whoop-section">
+  <!-- ===== WHOOP card ===== -->
+  <style>
+    .whoop-section { margin-bottom: 32px; }
+    .whoop-card { padding: 22px 22px 18px; background: rgba(255,255,255,0.025); border: 1px solid transparent; border-radius: 22px; box-shadow: 0 1px 0 0 rgba(255,255,255,0.06) inset, 0 12px 40px rgba(0,0,0,0.45), 0 1px 2px rgba(0,0,0,0.25); }
+    .whoop-brand { display: inline-flex; align-items: center; gap: 8px; }
+    .whoop-brand-mark { width: 22px; height: 22px; border-radius: 50%; background: #FFFFFF; color: #0A0A0B; font-weight: 900; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; letter-spacing: -0.04em; box-shadow: 0 0 12px rgba(255,255,255,0.20); }
+    .whoop-brand-text { font-weight: 800; font-size: 13px; letter-spacing: 0.18em; color: var(--text-primary); }
+    .whoop-disconnected { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 18px 8px 8px; gap: 6px; }
+    .whoop-disconnected .whoop-brand { margin-bottom: 14px; }
+    .whoop-disconnected-title { font-size: 22px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.02em; margin-top: 2px; }
+    .whoop-disconnected-sub { font-size: 13px; color: var(--text-tertiary); max-width: 280px; line-height: 1.5; margin-bottom: 18px; }
+    .whoop-connect-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 22px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.85); background: linear-gradient(180deg, #FFFFFF 0%, #E8E5DD 100%); color: #0A0A0B; font-family: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer; transition: transform 0.12s, box-shadow 0.18s, background 0.18s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 6px 20px rgba(0,0,0,0.45); }
+    .whoop-connect-btn:hover { background: linear-gradient(180deg, #FFFFFF 0%, #F2F0EA 100%); transform: translateY(-1px); }
+    .whoop-conn-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+    .whoop-conn-actions { display:flex; align-items:center; gap:8px; }
+    .whoop-refresh-btn { width:30px; height:30px; border-radius:50%; background:transparent; border:1px solid rgba(255,255,255,0.10); color:var(--text-tertiary); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; transition:color 0.15s, border-color 0.15s, transform 0.4s; }
+    .whoop-refresh-btn:hover { color:var(--text-primary); border-color:rgba(255,255,255,0.20); }
+    .whoop-refresh-btn.is-spinning { transform:rotate(360deg); }
+    .whoop-disc-btn { background:transparent; border:1px solid rgba(255,255,255,0.10); color:var(--text-tertiary); padding:6px 12px; border-radius:999px; cursor:pointer; font-family:inherit; font-size:11px; letter-spacing:0.04em; }
+    .whoop-disc-btn:hover { color:var(--text-secondary); border-color:rgba(255,255,255,0.20); }
+    .whoop-err { background:rgba(255,107,107,0.08); border:1px solid rgba(255,107,107,0.28); color:#FF8A8A; padding:10px 12px; border-radius:10px; font-size:11.5px; font-family:var(--font-mono); margin-bottom:14px; }
+    .whoop-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+    @media (max-width: 480px) { .whoop-grid { grid-template-columns:repeat(2, 1fr); } }
+    .whoop-cell { background:rgba(255,255,255,0.025); border:1px solid transparent; border-radius:12px; padding:14px 12px; text-align:center; }
+    .whoop-cell-label { font-size:10px; color:var(--text-tertiary); text-transform:uppercase; letter-spacing:0.14em; font-weight:700; margin-bottom:6px; }
+    .whoop-cell-val { font-size:22px; font-weight:700; color:var(--text-primary); font-variant-numeric:tabular-nums; letter-spacing:-0.03em; line-height:1; }
+    .whoop-cell-sub { font-size:10px; color:var(--text-tertiary); margin-top:5px; font-variant-numeric:tabular-nums; font-family:var(--font-mono); }
+  </style>
+  <div class="whoop-section">
     <div class="section-title">Whoop</div>
     <div class="whoop-card">
-      <button id="whoopSettingsBtn" class="whoop-settings-btn" type="button" aria-label="WHOOP settings" title="WHOOP settings">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.01a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.01a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.01a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-      </button>
-
-      <!-- ===== DISCONNECTED ===== -->
       <div id="whoopDisconnected" class="whoop-disconnected">
-        <div class="whoop-brand">
-          <span class="whoop-brand-mark">W</span>
-          <span class="whoop-brand-text">WHOOP</span>
-        </div>
+        <div class="whoop-brand"><span class="whoop-brand-mark">W</span><span class="whoop-brand-text">WHOOP</span></div>
         <div class="whoop-disconnected-title">Not connected</div>
         <div class="whoop-disconnected-sub">Link your account to see live recovery, sleep, and strain.</div>
-        <button id="whoopConnectBtn" class="whoop-connect-btn" type="button">
-          Connect WHOOP
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 5 20 12 13 19"/></svg>
-        </button>
-        <div id="whoopAuthStatus" class="whoop-auth-status"></div>
+        <button id="whoopConnectBtn" class="whoop-connect-btn" type="button">Connect WHOOP</button>
       </div>
-
-      <!-- ===== CONNECTED ===== -->
       <div id="whoopConnected" class="whoop-connected" style="display:none">
-        <div class="whoop-header">
-          <div class="whoop-brand">
-            <span class="whoop-brand-mark">W</span>
-            <span class="whoop-brand-text">WHOOP</span>
-            <span class="whoop-live-tag"><span class="whoop-live-dot"></span>live</span>
-          </div>
-          <div class="whoop-header-right">
-            <span id="whoopUpdated" class="whoop-updated">loading…</span>
-            <button id="whoopRefreshBtn" class="whoop-refresh-btn" title="Refresh" aria-label="Refresh">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15A9 9 0 1 1 5.64 5.64L23 10"/></svg>
-            </button>
+        <div class="whoop-conn-head">
+          <div class="whoop-brand"><span class="whoop-brand-mark">W</span><span class="whoop-brand-text">WHOOP</span></div>
+          <div class="whoop-conn-actions">
+            <button id="whoopRefreshBtn" type="button" class="whoop-refresh-btn" aria-label="Refresh"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15A9 9 0 1 1 5.64 5.64L23 10"/></svg></button>
+            <button id="whoopDisconnectBtn" type="button" class="whoop-disc-btn">Disconnect</button>
           </div>
         </div>
-
-        <div id="whoopCalibrating" class="whoop-calibrating" style="display:none">
-          <span class="whoop-cal-dot"></span>
-          WHOOP is still calibrating — early scores may shift over the next few weeks
+        <div id="whoopErr" class="whoop-err" style="display:none"></div>
+        <div class="whoop-grid">
+          <div class="whoop-cell"><div class="whoop-cell-label">Recovery</div><div id="whoopRecovery" class="whoop-cell-val">—</div><div id="whoopRecoverySub" class="whoop-cell-sub">—</div></div>
+          <div class="whoop-cell"><div class="whoop-cell-label">Sleep</div><div id="whoopSleep" class="whoop-cell-val">—</div><div id="whoopSleepSub" class="whoop-cell-sub">—</div></div>
+          <div class="whoop-cell"><div class="whoop-cell-label">Strain</div><div id="whoopStrain" class="whoop-cell-val">—</div><div class="whoop-cell-sub">today</div></div>
+          <div class="whoop-cell"><div class="whoop-cell-label">HRV</div><div id="whoopHrv" class="whoop-cell-val">—</div><div class="whoop-cell-sub">ms</div></div>
+          <div class="whoop-cell"><div class="whoop-cell-label">RHR</div><div id="whoopRhr" class="whoop-cell-val">—</div><div class="whoop-cell-sub">bpm</div></div>
+          <div class="whoop-cell"><div class="whoop-cell-label">Resp</div><div id="whoopResp" class="whoop-cell-val">—</div><div class="whoop-cell-sub">rpm</div></div>
         </div>
-
-        <div id="whoopRecoveryCard" class="whoop-ring-wrap">
-          <svg class="whoop-ring" viewBox="0 0 220 220" aria-hidden="true">
-            <circle class="whoop-ring-track" cx="110" cy="110" r="96" />
-            <circle class="whoop-ring-fill" cx="110" cy="110" r="96" id="whoopRecoveryRingFill" />
-          </svg>
-          <div class="whoop-ring-center">
-            <div id="whoopRecoveryScore" class="whoop-ring-num">—</div>
-            <div class="whoop-ring-unit">recovery</div>
-            <div id="whoopRecoveryLabel" class="whoop-ring-label">—</div>
-          </div>
-        </div>
-
-        <div id="whoopStages" class="whoop-stages" style="display:none">
-          <div class="whoop-stages-head">
-            <span class="whoop-stages-eyebrow">Sleep stages</span>
-            <span class="whoop-stages-meta" id="whoopStagesMeta"></span>
-          </div>
-          <div class="whoop-stages-bar">
-            <div class="whoop-stage whoop-stage-rem" id="whoopStageRem" style="width:0%"></div>
-            <div class="whoop-stage whoop-stage-deep" id="whoopStageDeep" style="width:0%"></div>
-            <div class="whoop-stage whoop-stage-light" id="whoopStageLight" style="width:0%"></div>
-            <div class="whoop-stage whoop-stage-awake" id="whoopStageAwake" style="width:0%"></div>
-          </div>
-          <div class="whoop-stages-legend">
-            <div class="whoop-stages-leg"><span class="whoop-stages-dot d-rem"></span>REM <span id="whoopStageRemTxt" class="whoop-stages-num">—</span></div>
-            <div class="whoop-stages-leg"><span class="whoop-stages-dot d-deep"></span>Deep <span id="whoopStageDeepTxt" class="whoop-stages-num">—</span></div>
-            <div class="whoop-stages-leg"><span class="whoop-stages-dot d-light"></span>Light <span id="whoopStageLightTxt" class="whoop-stages-num">—</span></div>
-            <div class="whoop-stages-leg"><span class="whoop-stages-dot d-awake"></span>Awake <span id="whoopStageAwakeTxt" class="whoop-stages-num">—</span></div>
-          </div>
-        </div>
-
-        <div class="whoop-stats">
-          <div class="whoop-stat">
-            <span class="whoop-zone" id="whoopZoneSleep"></span>
-            <div class="whoop-stat-label">Sleep</div>
-            <div class="whoop-stat-value" id="whoopSleepScore">—</div>
-            <div class="whoop-stat-sub" id="whoopSleepDuration">—</div>
-          </div>
-          <div class="whoop-stat">
-            <span class="whoop-zone" id="whoopZoneStrain"></span>
-            <div class="whoop-stat-label">Strain</div>
-            <div class="whoop-stat-value" id="whoopStrain">—</div>
-            <div class="whoop-stat-sub">today</div>
-          </div>
-          <div class="whoop-stat">
-            <span class="whoop-zone" id="whoopZoneHrv"></span>
-            <div class="whoop-stat-label">HRV</div>
-            <div class="whoop-stat-value" id="whoopHrv">—</div>
-            <div class="whoop-stat-sub">ms</div>
-          </div>
-          <div class="whoop-stat">
-            <span class="whoop-zone" id="whoopZoneRhr"></span>
-            <div class="whoop-stat-label">RHR</div>
-            <div class="whoop-stat-value" id="whoopRhr">—</div>
-            <div class="whoop-stat-sub">bpm</div>
-          </div>
-        </div>
-
-        <div id="whoopBio" class="whoop-bio" style="display:none">
-          <div class="whoop-bio-item">
-            <span class="whoop-zone" id="whoopZoneSkin"></span>
-            <span class="whoop-bio-label">Skin temp</span>
-            <span class="whoop-bio-val" id="whoopSkinTemp">—</span>
-          </div>
-          <div class="whoop-bio-item">
-            <span class="whoop-zone" id="whoopZoneSpo2"></span>
-            <span class="whoop-bio-label">Blood O₂</span>
-            <span class="whoop-bio-val" id="whoopSpo2">—</span>
-          </div>
-          <div class="whoop-bio-item">
-            <span class="whoop-zone" id="whoopZoneResp"></span>
-            <span class="whoop-bio-label">Resp rate</span>
-            <span class="whoop-bio-val" id="whoopResp">—</span>
-          </div>
-        </div>
-
-        <div class="whoop-legend">
-          <span class="whoop-legend-item"><span class="whoop-zone z-good"></span>Good</span>
-          <span class="whoop-legend-item"><span class="whoop-zone z-norm"></span>Normal</span>
-          <span class="whoop-legend-item"><span class="whoop-zone z-warn"></span>Watch</span>
-          <span class="whoop-legend-item"><span class="whoop-zone z-bad"></span>High / Low</span>
-        </div>
-
-        <div id="whoopVerdict" class="whoop-verdict" style="display:none">
-          <div class="whoop-verdict-head">
-            <span class="whoop-verdict-eyebrow">Today's call</span>
-            <span id="whoopVerdictBadge" class="whoop-verdict-badge"></span>
-          </div>
-          <div id="whoopVerdictHeadline" class="whoop-verdict-headline"></div>
-          <div id="whoopVerdictReasons" class="whoop-verdict-reasons"></div>
-        </div>
-
-        <button id="whoopDisconnectBtn" class="whoop-disconnect-btn" type="button">Disconnect</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHOOP setup overlay — shown when no Client ID is configured yet -->
-  <div id="whoopSetup">
-    <div class="whoop-setup-card">
-      <h2>Connect your WHOOP</h2>
-      <div class="whoop-setup-sub">Reads your own WHOOP data directly from the WHOOP API. Requires a free developer app.</div>
-      <ol>
-        <li>Go to <code>developer.whoop.com</code> → create an app</li>
-        <li>Set redirect URL to this exact page's URL (shown below once you deploy)</li>
-        <li>Copy the <code>Client ID</code> and <code>Client Secret</code></li>
-        <li>In your Vercel project settings, add env vars <code>WHOOP_CLIENT_ID</code> and <code>WHOOP_CLIENT_SECRET</code>, then redeploy</li>
-        <li>Paste the same Client ID below</li>
-      </ol>
-      <label>WHOOP Client ID</label>
-      <input id="whoopCfgClientId" type="text" placeholder="2ac01150-60a5-43f5-96be-26f6c5bcea44" autocomplete="off" spellcheck="false" />
-      <div class="whoop-setup-actions">
-        <button class="secondary" id="whoopCfgSkipBtn" type="button">Close</button>
-        <button id="whoopCfgSaveBtn" type="button">Save</button>
       </div>
     </div>
   </div>
+  <script>
+  (function () {
+    const KEY = 'whoop_tokens_v1';
+    const CLIENT_ID = 'a110f193-8904-47e5-bd34-ba43a2406d01';
+    const REDIRECT  = window.location.origin + '/api/whoop-callback';
+    const SCOPES    = 'read:recovery read:sleep read:workout read:cycles read:profile read:body_measurement offline';
+    function loadTokens() { try { return JSON.parse(localStorage.getItem(KEY)); } catch { return null; } }
+    function saveTokens(t) { try { localStorage.setItem(KEY, JSON.stringify(t)); } catch {} }
+    function clearTokens() { try { localStorage.removeItem(KEY); } catch {} }
+    if (location.hash && location.hash.indexOf('whoop_access') !== -1) {
+      const h = new URLSearchParams(location.hash.slice(1));
+      const access = h.get('whoop_access'), refresh = h.get('whoop_refresh');
+      const expires = Number(h.get('whoop_expires')) || (Date.now() + 3500*1000);
+      if (access) { saveTokens({ access, refresh, expires }); history.replaceState(null, '', location.pathname + location.search); }
+    }
+    const dEl = document.getElementById('whoopDisconnected');
+    const cEl = document.getElementById('whoopConnected');
+    const errEl = document.getElementById('whoopErr');
+    document.getElementById('whoopConnectBtn').addEventListener('click', () => {
+      const url = 'https://api.prod.whoop.com/oauth/oauth2/auth'
+        + '?client_id=' + encodeURIComponent(CLIENT_ID)
+        + '&redirect_uri=' + encodeURIComponent(REDIRECT)
+        + '&response_type=code'
+        + '&scope=' + encodeURIComponent(SCOPES)
+        + '&state=' + Math.random().toString(36).slice(2);
+      location.href = url;
+    });
+    document.getElementById('whoopDisconnectBtn').addEventListener('click', () => { clearTokens(); render(); });
+    document.getElementById('whoopRefreshBtn').addEventListener('click', async (e) => {
+      e.currentTarget.classList.add('is-spinning');
+      try { await loadData(); } finally { setTimeout(() => e.currentTarget && e.currentTarget.classList.remove('is-spinning'), 600); }
+    });
+    function showErr(m) { errEl.textContent = m || ''; errEl.style.display = m ? 'block' : 'none'; }
+    async function refreshToken(t) {
+      if (!t.refresh) return null;
+      try {
+        const r = await fetch('/api/whoop-refresh', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ refresh_token: t.refresh }) });
+        const j = await r.json();
+        if (j.access_token) { const next = { access: j.access_token, refresh: j.refresh_token || t.refresh, expires: Date.now() + (j.expires_in||3500)*1000 }; saveTokens(next); return next; }
+      } catch {} return null;
+    }
+    async function whoopFetch(path, t) {
+      const [p, qs] = path.split('?');
+      const params = new URLSearchParams(qs || ''); params.set('path', p);
+      const r = await fetch('/api/whoop-data?' + params.toString(), { headers: { 'Authorization': 'Bearer ' + t.access, 'Accept':'application/json' } });
+      if (r.status === 401) { const n = await refreshToken(t); if (n) return whoopFetch(path, n); throw new Error('unauthorized'); }
+      if (!r.ok) throw new Error('WHOOP ' + r.status + ': ' + (await r.text()));
+      return await r.json();
+    }
+    function fmtMins(ms) { const m = Math.round(ms/60000); const h = Math.floor(m/60); return h + 'h ' + String(m%60).padStart(2,'0') + 'm'; }
+    async function loadData() {
+      let t = loadTokens(); if (!t) return;
+      if (t.expires && Date.now() > t.expires - 60000) { const n = await refreshToken(t); if (n) t = n; }
+      showErr('');
+      try {
+        const [rec, sleep, cycle] = await Promise.all([
+          whoopFetch('/recovery?limit=1', t).catch((e)=>{console.error('[whoop] /recovery:', e.message); return null;}),
+          whoopFetch('/activity/sleep?limit=1', t).catch((e)=>{console.error('[whoop] /sleep:', e.message); return null;}),
+          whoopFetch('/cycle?limit=1', t).catch((e)=>{console.error('[whoop] /cycle:', e.message); return null;}),
+        ]);
+        const r = rec && rec.records && rec.records[0] && rec.records[0].score;
+        if (r) {
+          document.getElementById('whoopRecovery').textContent = Math.round(r.recovery_score||0) + '%';
+          document.getElementById('whoopHrv').textContent = Math.round(r.hrv_rmssd_milli||0);
+          document.getElementById('whoopRhr').textContent = Math.round(r.resting_heart_rate||0);
+          document.getElementById('whoopRecoverySub').textContent = r.recovery_score>=67?'high recovery':r.recovery_score>=34?'moderate':'low';
+        }
+        const s = sleep && sleep.records && sleep.records[0];
+        if (s && s.score && s.score.stage_summary) {
+          const ss = s.score.stage_summary;
+          const total = (ss.total_in_bed_time_milli||0) - (ss.total_awake_time_milli||0);
+          document.getElementById('whoopSleep').textContent = fmtMins(total);
+          document.getElementById('whoopSleepSub').textContent = Math.round(s.score.sleep_performance_percentage||0) + '% perf';
+          document.getElementById('whoopResp').textContent = (s.score.respiratory_rate||0).toFixed(1);
+        }
+        const c = cycle && cycle.records && cycle.records[0] && cycle.records[0].score;
+        if (c && c.strain != null) document.getElementById('whoopStrain').textContent = c.strain.toFixed(1);
+      } catch (e) { showErr(e.message || String(e)); }
+    }
+    function render() {
+      const t = loadTokens();
+      if (t && t.access) { dEl.style.display='none'; cEl.style.display=''; loadData(); }
+      else { dEl.style.display=''; cEl.style.display='none'; }
+    }
+    render();
+  })();
+  </script>
 
   <div class="section-title">Daily Stack</div>
 
@@ -1343,352 +1191,6 @@ document.addEventListener('DOMContentLoaded', function () {
     onApplied: function () { window.dispatchEvent(new Event('storage')); }
   });
 });
-</script>
-<script>
-/* ============================================================
-   WHOOP widget — OAuth2 connect + live recovery/sleep/strain.
-   Token exchange happens server-side via /api/whoop-token (Vercel
-   function) so the WHOOP client secret never reaches the browser.
-   Tokens/client-id are kept in localStorage only — deliberately
-   NOT added to initCloudSync's syncedKeys, so they never leave
-   this device via Supabase.
-   ============================================================ */
-(function () {
-  'use strict';
-  const WHOOP_AUTH_URL = 'https://api.prod.whoop.com/oauth/oauth2/auth';
-  const WHOOP_API_BASE = 'https://api.prod.whoop.com/developer/v1';
-  const SCOPES = 'read:recovery read:cycles read:sleep read:profile offline';
-  const TOKENS_KEY = 'whoop_tokens';
-  const CLIENT_ID_KEY = 'whoop_cfg_clientId';
-  const STATE_KEY = 'whoop_oauth_state';
-
-  const $ = (id) => document.getElementById(id);
-  const els = {};
-  ['whoopSettingsBtn','whoopDisconnected','whoopConnected','whoopConnectBtn','whoopAuthStatus',
-   'whoopUpdated','whoopRefreshBtn','whoopCalibrating','whoopRecoveryRingFill','whoopRecoveryScore',
-   'whoopRecoveryLabel','whoopStages','whoopStagesMeta','whoopStageRem','whoopStageDeep','whoopStageLight',
-   'whoopStageAwake','whoopStageRemTxt','whoopStageDeepTxt','whoopStageLightTxt','whoopStageAwakeTxt',
-   'whoopZoneSleep','whoopSleepScore','whoopSleepDuration','whoopZoneStrain','whoopStrain','whoopZoneHrv',
-   'whoopHrv','whoopZoneRhr','whoopRhr','whoopBio','whoopZoneSkin','whoopSkinTemp','whoopZoneSpo2','whoopSpo2',
-   'whoopZoneResp','whoopResp','whoopVerdict','whoopVerdictBadge','whoopVerdictHeadline','whoopVerdictReasons',
-   'whoopDisconnectBtn','whoopSetup','whoopCfgClientId','whoopCfgSkipBtn','whoopCfgSaveBtn'
-  ].forEach((id) => { els[id] = $(id); });
-
-  function getClientId() { return localStorage.getItem(CLIENT_ID_KEY) || ''; }
-  function getTokens() { try { return JSON.parse(localStorage.getItem(TOKENS_KEY) || 'null'); } catch { return null; } }
-  function setTokens(t) { try { localStorage.setItem(TOKENS_KEY, JSON.stringify(t)); } catch {} }
-  function clearTokens() { try { localStorage.removeItem(TOKENS_KEY); } catch {} }
-  function redirectUri() { return window.location.origin + window.location.pathname; }
-
-  function showSetup() {
-    els.whoopCfgClientId.value = getClientId();
-    els.whoopSetup.classList.add('is-visible');
-  }
-  function hideSetup() { els.whoopSetup.classList.remove('is-visible'); }
-  els.whoopSettingsBtn.addEventListener('click', showSetup);
-  els.whoopCfgSkipBtn.addEventListener('click', hideSetup);
-  els.whoopCfgSaveBtn.addEventListener('click', () => {
-    const id = els.whoopCfgClientId.value.trim();
-    if (id) localStorage.setItem(CLIENT_ID_KEY, id);
-    else localStorage.removeItem(CLIENT_ID_KEY);
-    hideSetup();
-  });
-
-  function beginConnect() {
-    const clientId = getClientId();
-    if (!clientId) { showSetup(); return; }
-    const state = Math.random().toString(36).slice(2) + Date.now().toString(36);
-    try { sessionStorage.setItem(STATE_KEY, state); } catch {}
-    const params = new URLSearchParams({
-      response_type: 'code',
-      client_id: clientId,
-      redirect_uri: redirectUri(),
-      scope: SCOPES,
-      state,
-    });
-    window.location.href = WHOOP_AUTH_URL + '?' + params.toString();
-  }
-  els.whoopConnectBtn.addEventListener('click', beginConnect);
-
-  els.whoopDisconnectBtn.addEventListener('click', () => {
-    clearTokens();
-    renderConnectionState();
-  });
-
-  async function exchangeCode(code) {
-    const res = await fetch('/api/whoop-token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'exchange', code, redirect_uri: redirectUri() }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error((data && (data.error || data.message)) || 'exchange_failed');
-    return data;
-  }
-  async function refreshTokens(refresh_token) {
-    const res = await fetch('/api/whoop-token', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action: 'refresh', refresh_token }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error((data && (data.error || data.message)) || 'refresh_failed');
-    return data;
-  }
-  function storeTokenResponse(data) {
-    const t = {
-      access_token: data.access_token,
-      refresh_token: data.refresh_token,
-      expires_at: Date.now() + Math.max(0, (data.expires_in || 3600) - 60) * 1000,
-    };
-    setTokens(t);
-    return t;
-  }
-
-  async function ensureFreshToken() {
-    let t = getTokens();
-    if (!t || !t.access_token) return null;
-    if (t.expires_at && Date.now() < t.expires_at) return t;
-    if (!t.refresh_token) { clearTokens(); return null; }
-    try {
-      const data = await refreshTokens(t.refresh_token);
-      return storeTokenResponse(Object.assign({ refresh_token: t.refresh_token }, data));
-    } catch (e) {
-      clearTokens();
-      return null;
-    }
-  }
-
-  async function whoopGet(path) {
-    const t = await ensureFreshToken();
-    if (!t) throw new Error('not_connected');
-    const res = await fetch(WHOOP_API_BASE + path, {
-      headers: { Authorization: 'Bearer ' + t.access_token },
-    });
-    if (res.status === 401) { clearTokens(); throw new Error('unauthorized'); }
-    if (!res.ok) throw new Error('whoop_api_error_' + res.status);
-    return res.json();
-  }
-
-  function newestRecord(records, dateField) {
-    if (!Array.isArray(records) || !records.length) return null;
-    const scored = records.filter((r) => r && r.score_state === 'SCORED');
-    const pool = scored.length ? scored : records;
-    return pool.slice().sort((a, b) => new Date(b[dateField] || 0) - new Date(a[dateField] || 0))[0];
-  }
-
-  async function fetchLatestRecovery() {
-    const d = await whoopGet('/recovery?limit=5');
-    return newestRecord(d && d.records, 'updated_at');
-  }
-  async function fetchLatestCycle() {
-    const d = await whoopGet('/cycle?limit=5');
-    return newestRecord(d && d.records, 'start');
-  }
-  async function fetchLatestSleep() {
-    const d = await whoopGet('/activity/sleep?limit=5');
-    const records = (d && d.records || []).filter((r) => !r.nap);
-    return newestRecord(records.length ? records : (d && d.records), 'start');
-  }
-
-  // Zone bands mirror WHOOP's own recovery bands (green >=67, yellow 34-66,
-  // red <34). Auxiliary biomarker dots (HRV/RHR/skin/SpO2/resp) don't have a
-  // personal baseline available here, so they're shown relative to the same
-  // day's recovery score rather than a fabricated "normal range".
-  function recoveryZone(score) {
-    if (score == null) return 'norm';
-    if (score >= 67) return 'good';
-    if (score >= 34) return 'warn';
-    return 'bad';
-  }
-  function pctZone(pct) {
-    if (pct == null) return 'norm';
-    if (pct >= 75) return 'good';
-    if (pct >= 50) return 'warn';
-    return 'bad';
-  }
-  function setZone(el, zone) {
-    if (!el) return;
-    el.classList.remove('z-good', 'z-norm', 'z-warn', 'z-bad');
-    el.classList.add('z-' + zone);
-  }
-  function fmtDuration(ms) {
-    if (ms == null || isNaN(ms)) return '—';
-    const totalMin = Math.round(ms / 60000);
-    const h = Math.floor(totalMin / 60), m = totalMin % 60;
-    return h + 'h ' + m + 'm';
-  }
-  function fmtTime(iso) {
-    if (!iso) return '';
-    try { return new Date(iso).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }); }
-    catch { return ''; }
-  }
-
-  const RING_CIRC = 603.19;
-  function renderRecovery(recovery) {
-    const score = recovery && recovery.score && recovery.score.recovery_score;
-    const zone = recoveryZone(score);
-    els.whoopRecoveryScore.textContent = score != null ? Math.round(score) : '—';
-    els.whoopRecoveryLabel.textContent = score == null ? '—' : (zone === 'good' ? 'Green · ready to go' : zone === 'warn' ? 'Yellow · take it steady' : 'Red · prioritize recovery');
-    els.whoopRecoveryLabel.style.color = zone === 'good' ? '#6BE3A4' : zone === 'warn' ? '#F2C063' : zone === 'bad' ? '#FF6B6B' : '';
-    const offset = score == null ? RING_CIRC : RING_CIRC * (1 - Math.max(0, Math.min(100, score)) / 100);
-    els.whoopRecoveryRingFill.style.strokeDashoffset = String(offset);
-    els.whoopRecoveryRingFill.style.stroke = zone === 'good' ? '#6BE3A4' : zone === 'warn' ? '#F2C063' : zone === 'bad' ? '#FF6B6B' : '#FFFFFF';
-
-    const hrv = recovery && recovery.score && recovery.score.hrv_rmssd_milli;
-    const rhr = recovery && recovery.score && recovery.score.resting_heart_rate;
-    const skin = recovery && recovery.score && recovery.score.skin_temp_celsius;
-    const spo2 = recovery && recovery.score && recovery.score.spo2_percentage;
-
-    els.whoopHrv.textContent = hrv != null ? Math.round(hrv) : '—';
-    els.whoopRhr.textContent = rhr != null ? Math.round(rhr) : '—';
-    setZone(els.whoopZoneHrv, zone);
-    setZone(els.whoopZoneRhr, zone);
-
-    if (skin != null || spo2 != null) {
-      els.whoopBio.style.display = '';
-      els.whoopSkinTemp.textContent = skin != null ? (skin * 9 / 5 + 32).toFixed(1) + '°F' : '—';
-      els.whoopSpo2.textContent = spo2 != null ? spo2.toFixed(1) + '%' : '—';
-      els.whoopResp.textContent = '—';
-      setZone(els.whoopZoneSkin, zone);
-      setZone(els.whoopZoneSpo2, zone);
-      setZone(els.whoopZoneResp, zone);
-    } else {
-      els.whoopBio.style.display = 'none';
-    }
-    return { score, zone, hrv, rhr };
-  }
-
-  function renderSleep(sleep) {
-    const s = sleep && sleep.score;
-    const perf = s && s.sleep_performance_percentage;
-    const zone = pctZone(perf);
-    els.whoopSleepScore.textContent = perf != null ? Math.round(perf) + '%' : '—';
-    setZone(els.whoopZoneSleep, zone);
-
-    const stages = s && s.stage_summary;
-    if (stages) {
-      const rem = stages.total_rem_sleep_time_milli || 0;
-      const deep = stages.total_slow_wave_sleep_time_milli || 0;
-      const light = stages.total_light_sleep_time_milli || 0;
-      const awake = stages.total_awake_time_milli || 0;
-      const asleep = rem + deep + light;
-      const total = asleep + awake || 1;
-      els.whoopSleepDuration.textContent = fmtDuration(asleep);
-      els.whoopStages.style.display = '';
-      els.whoopStagesMeta.textContent = fmtDuration(asleep) + ' asleep';
-      els.whoopStageRem.style.width = (rem / total * 100).toFixed(1) + '%';
-      els.whoopStageDeep.style.width = (deep / total * 100).toFixed(1) + '%';
-      els.whoopStageLight.style.width = (light / total * 100).toFixed(1) + '%';
-      els.whoopStageAwake.style.width = (awake / total * 100).toFixed(1) + '%';
-      els.whoopStageRemTxt.textContent = fmtDuration(rem);
-      els.whoopStageDeepTxt.textContent = fmtDuration(deep);
-      els.whoopStageLightTxt.textContent = fmtDuration(light);
-      els.whoopStageAwakeTxt.textContent = fmtDuration(awake);
-    } else {
-      els.whoopSleepDuration.textContent = '—';
-      els.whoopStages.style.display = 'none';
-    }
-    return { perf, zone };
-  }
-
-  function renderStrain(cycle) {
-    const strain = cycle && cycle.score && cycle.score.strain;
-    els.whoopStrain.textContent = strain != null ? strain.toFixed(1) : '—';
-    setZone(els.whoopZoneStrain, 'norm');
-    return { strain };
-  }
-
-  function renderVerdict(rec, sleep) {
-    if (rec.score == null) { els.whoopVerdict.style.display = 'none'; return; }
-    els.whoopVerdict.style.display = '';
-    const badgeText = rec.zone === 'good' ? 'GO' : rec.zone === 'warn' ? 'MODERATE' : 'REST';
-    const badgeColor = rec.zone === 'good' ? '#6BE3A4' : rec.zone === 'warn' ? '#F2C063' : '#FF6B6B';
-    els.whoopVerdictBadge.textContent = badgeText;
-    els.whoopVerdictBadge.style.color = badgeColor;
-    els.whoopVerdictBadge.style.borderColor = badgeColor;
-    els.whoopVerdictBadge.style.background = 'transparent';
-    els.whoopVerdictHeadline.textContent = rec.zone === 'good'
-      ? "Recovery is green — you're primed to push training or tackle a hard day."
-      : rec.zone === 'warn'
-        ? 'Recovery is yellow — moderate load, listen to your body today.'
-        : 'Recovery is red — favor rest, light movement, and sleep tonight.';
-    const parts = [];
-    parts.push('Recovery ' + Math.round(rec.score) + '%');
-    if (rec.hrv != null) parts.push('HRV ' + Math.round(rec.hrv) + 'ms');
-    if (rec.rhr != null) parts.push('RHR ' + Math.round(rec.rhr) + 'bpm');
-    if (sleep.perf != null) parts.push('Sleep ' + Math.round(sleep.perf) + '%');
-    els.whoopVerdictReasons.textContent = parts.join(' · ');
-  }
-
-  function renderConnectionState() {
-    const connected = !!getTokens();
-    els.whoopDisconnected.style.display = connected ? 'none' : '';
-    els.whoopConnected.style.display = connected ? '' : 'none';
-  }
-
-  let loading = false;
-  async function loadAll() {
-    if (loading) return;
-    loading = true;
-    els.whoopRefreshBtn.classList.add('is-loading');
-    try {
-      const [recovery, cycle, sleep] = await Promise.all([
-        fetchLatestRecovery().catch(() => null),
-        fetchLatestCycle().catch(() => null),
-        fetchLatestSleep().catch(() => null),
-      ]);
-      if (!getTokens()) { renderConnectionState(); return; }
-      const rec = renderRecovery(recovery);
-      const sl = renderSleep(sleep);
-      renderStrain(cycle);
-      renderVerdict(rec, sl);
-      els.whoopUpdated.textContent = 'updated ' + fmtTime(new Date().toISOString());
-      renderConnectionState();
-    } catch (e) {
-      els.whoopUpdated.textContent = 'sync failed';
-    } finally {
-      loading = false;
-      els.whoopRefreshBtn.classList.remove('is-loading');
-    }
-  }
-  els.whoopRefreshBtn.addEventListener('click', loadAll);
-
-  async function handleOAuthRedirect() {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get('code');
-    const state = params.get('state');
-    const err = params.get('error');
-    if (!code && !err) return;
-    // Strip OAuth params from the URL so a refresh doesn't re-submit them.
-    const clean = window.location.pathname + window.location.hash;
-    window.history.replaceState({}, '', clean);
-    if (err) { els.whoopAuthStatus.textContent = 'WHOOP connection was cancelled.'; return; }
-    let savedState = null;
-    try { savedState = sessionStorage.getItem(STATE_KEY); } catch {}
-    if (savedState && state && savedState !== state) {
-      els.whoopAuthStatus.textContent = 'Connection failed — state mismatch, try again.';
-      return;
-    }
-    els.whoopAuthStatus.textContent = 'Connecting…';
-    try {
-      const data = await exchangeCode(code);
-      storeTokenResponse(data);
-      els.whoopAuthStatus.textContent = '';
-      renderConnectionState();
-      loadAll();
-    } catch (e) {
-      els.whoopAuthStatus.textContent = 'Connection failed: ' + (e && e.message || 'unknown error');
-    }
-  }
-
-  renderConnectionState();
-  handleOAuthRedirect().then(() => {
-    if (getTokens()) loadAll();
-  });
-  setInterval(() => { if (getTokens() && !document.hidden) loadAll(); }, 10 * 60 * 1000);
-  document.addEventListener('visibilitychange', () => { if (!document.hidden && getTokens()) loadAll(); });
-})();
 </script>
 
 </body>

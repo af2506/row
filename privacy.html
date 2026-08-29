@@ -122,9 +122,11 @@ footer { margin-top: 48px; font-size: 12px; color: var(--text-tertiary); }
   <h2>Authentication &amp; tokens</h2>
   <p>
     WHOOP connect uses standard OAuth2. Your WHOOP <code>Client Secret</code> is kept server-side in a
-    single serverless function (<code>/api/whoop-token</code>) used only to exchange or refresh your
-    access token — it never reaches the browser. Your access and refresh tokens are stored in your
-    browser's local storage and used only to make read requests to WHOOP's API on your behalf.
+    small set of serverless functions (<code>/api/whoop-callback</code>, <code>/api/whoop-refresh</code>)
+    used only to exchange or refresh your access token — it never reaches the browser. Data reads go
+    through <code>/api/whoop-data</code>, which forwards your access token to WHOOP's API without ever
+    seeing the Client Secret. Your access and refresh tokens are stored in your browser's local storage
+    and used only to make read requests to WHOOP's API on your behalf.
   </p>
 
   <h2>How to disconnect / delete your data</h2>
