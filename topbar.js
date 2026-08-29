@@ -11,8 +11,8 @@
   'use strict';
 
   // -------- Supabase config (replace with your own project URL + publishable key) --------
-  const TOPBAR_SUPABASE_URL = 'https://pfndglaptaacnbyuhpqd.supabase.co';
-  const TOPBAR_SUPABASE_KEY = 'sb_publishable_hocX2MIacOnGBUraKVtGEw_I6XVDf2n';
+  const TOPBAR_SUPABASE_URL = 'https://neqfixusazwugavdygpl.supabase.co';
+  const TOPBAR_SUPABASE_KEY = 'sb_publishable_2uhbh2Drd8DddtWHdh7tBw_veksatcx';
 
   // -------- CSS --------
   const css = `
