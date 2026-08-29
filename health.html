@@ -865,6 +865,73 @@ main {
   })();
   </script>
 
+  <!-- ===== Sleep Schedule ===== -->
+  <style>
+    .sleep-section { margin-bottom: 32px; }
+    .sleep-card { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; }
+    .sleep-field { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 120px; }
+    .sleep-field label { font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-tertiary); }
+    .sleep-field input[type="time"] { font-size: 16px; font-variant-numeric: tabular-nums; }
+    .sleep-target { flex-basis: 100%; margin-top: 4px; font-family: var(--font-mono); font-size: 12px; color: var(--text-tertiary); }
+    .sleep-target strong { color: var(--text-primary); font-weight: 700; }
+  </style>
+  <section class="sleep-section">
+    <div class="section-title">Sleep Schedule</div>
+    <div class="stack-card sleep-card">
+      <div class="sleep-field">
+        <label for="sleepBedtime">Bedtime</label>
+        <input id="sleepBedtime" type="time" class="stack-input" />
+      </div>
+      <div class="sleep-field">
+        <label for="sleepWaketime">Wake up</label>
+        <input id="sleepWaketime" type="time" class="stack-input" />
+      </div>
+      <div class="sleep-target" id="sleepTargetText"></div>
+    </div>
+  </section>
+  <script>
+  (function () {
+    const KEY = 'sleep_schedule_v1';
+    const bedEl = document.getElementById('sleepBedtime');
+    const wakeEl = document.getElementById('sleepWaketime');
+    const targetEl = document.getElementById('sleepTargetText');
+
+    function load() {
+      try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; }
+    }
+    function save(v) {
+      try { localStorage.setItem(KEY, JSON.stringify(v)); } catch {}
+    }
+    function fmtDuration(mins) {
+      const h = Math.floor(mins / 60), m = mins % 60;
+      return h + 'h ' + (m ? m + 'm' : '');
+    }
+    function render() {
+      const s = load();
+      bedEl.value = s.bedtime || '';
+      wakeEl.value = s.wake || '';
+      if (s.bedtime && s.wake) {
+        const [bh, bm] = s.bedtime.split(':').map(Number);
+        const [wh, wm] = s.wake.split(':').map(Number);
+        let mins = (wh * 60 + wm) - (bh * 60 + bm);
+        if (mins <= 0) mins += 24 * 60;
+        targetEl.innerHTML = 'Target sleep: <strong>' + fmtDuration(mins) + '</strong>';
+      } else {
+        targetEl.textContent = 'Set both times to see target sleep duration';
+      }
+    }
+    function onChange() {
+      save({ bedtime: bedEl.value, wake: wakeEl.value });
+      render();
+      window.dispatchEvent(new Event('storage'));
+    }
+    bedEl.addEventListener('change', onChange);
+    wakeEl.addEventListener('change', onChange);
+    window.addEventListener('storage', render);
+    render();
+  })();
+  </script>
+
   <div class="section-title">Daily Stack</div>
 
   <div class="stack-card">
@@ -1435,7 +1502,7 @@ document.addEventListener('DOMContentLoaded', function () {
   if (typeof initCloudSync !== 'function') return;
   initCloudSync({
     appKey: 'health',
-    syncedKeys: ['stack:items', 'stack:version', 'stack:low', 'po_water_v1'],
+    syncedKeys: ['stack:items', 'stack:version', 'stack:low', 'po_water_v1', 'sleep_schedule_v1'],
     syncedPrefixes: ['stack:taken:'],
     onApplied: function () { window.dispatchEvent(new Event('storage')); }
   });
