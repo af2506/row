@@ -21,7 +21,18 @@ Open any `.html` file directly in your browser — no build step, no install.
 | [gym.html](gym.html) | Progressive overload gym tracker |
 | [topbar.js](topbar.js) | Shared top bar — auto-injected into pages that `<script src="topbar.js">` |
 
-Each app stores its own state in browser `localStorage`. No accounts, no server.
+Each app stores its own state in browser `localStorage`. No accounts, no server — except the WHOOP widget on `health.html`, which needs one small serverless function.
+
+### WHOOP widget (optional)
+
+`health.html` has a WHOOP card (recovery / sleep stages / strain) at the top of the page. It's off until you connect it:
+
+1. Create a free app at `developer.whoop.com`.
+2. Set its redirect URL to your deployed `health.html` URL (e.g. `https://your-site.vercel.app/health.html`).
+3. In your Vercel project → Settings → Environment Variables, add `WHOOP_CLIENT_ID` and `WHOOP_CLIENT_SECRET`, then redeploy.
+4. On the health page, tap the gear icon on the WHOOP card and paste the same Client ID, then hit **Connect WHOOP**.
+
+[api/whoop-token.js](api/whoop-token.js) is a Vercel serverless function that exchanges/refreshes the OAuth token — it's the only piece that touches your `WHOOP_CLIENT_SECRET`, which never reaches the browser. Tokens are stored in `localStorage` only and are deliberately excluded from the Supabase cloud sync used elsewhere in the dashboard.
 
 ## Building from scratch
 
